@@ -183,6 +183,7 @@ ClientBin/
 *.publishsettings
 orleans.codegen.cs
 .idea/
+.vscode/
 
 /node_modules
 
