@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
+    <PackageReference Include="LeadPipe.Net" Version="2017.4.21.53" />
+    <PackageReference Include="MediatR" Version="3.0.1" />
+    <PackageReference Include="FluentValidation" Version="7.1.1" />
+    <PackageReference Include="App.Metrics" Version="1.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CommandHandlers\" />
+    <Folder Include="Commands\" />
+    <Folder Include="CommandValidators\" />
+    <Folder Include="HealthChecks\" />
+    <Folder Include="MapperProfiles\" />
+    <Folder Include="Queries\" />
+    <Folder Include="QueryHandlers\" />
+    <Folder Include="QueryValidators\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Checkmunk.Application.Common\Checkmunk.Application.Common.csproj" />
+    <ProjectReference Include="..\Checkmunk.Contracts.Users\Checkmunk.Contracts.Users.csproj" />
+    <ProjectReference Include="..\Checkmunk.Data\Checkmunk.Data.csproj" />
+    <ProjectReference Include="..\Checkmunk.Domain.Users\Checkmunk.Domain.Users.csproj" />
+  </ItemGroup>
+</Project>

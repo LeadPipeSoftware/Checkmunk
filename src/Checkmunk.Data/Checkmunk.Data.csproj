@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Contexts\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="SeedData\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" />
+    <PackageReference Include="CsvHelper" Version="2.16.3" />
+    <PackageReference Include="LeadPipe.Net" Version="2017.4.21.53" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Design" Version="2.0.0-preview1-final" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="SeedData\Users.csv" />
+    <None Remove="SeedData\Checklists.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SeedData\Users.csv" />
+    <EmbeddedResource Include="SeedData\Checklists.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Checkmunk.Domain.Checklists\Checkmunk.Domain.Checklists.csproj" />
+    <ProjectReference Include="..\Checkmunk.Domain.Common\Checkmunk.Domain.Common.csproj" />
+    <ProjectReference Include="..\Checkmunk.Domain.Users\Checkmunk.Domain.Users.csproj" />
+  </ItemGroup>
+</Project>

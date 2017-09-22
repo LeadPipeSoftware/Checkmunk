@@ -1,0 +1,11 @@
+﻿EmailAddress,FirstName,LastName,BillingAddressAttentionLine,BillingAddressRecipientLine,BillingAddressDeliveryAddressLine,BillingAddressLastLine,MailingAddressAttentionLine,MailingAddressRecipientLine,MailingAddressDeliveryAddressLine,MailingAddressLastLine
+rick_stark@winterfell.org,Rick,Stark,,Mr. Rick Stark,583 Prince Tower,Winterfell TX 74635,,Mr. Rick Stark,583 Prince Tower,Winterfell TX 74635
+jonsnow@thewall.com,Jon,Snow,,Jon Snow,8344 Wall Tower,The Wall TX 76264,,Jon Snow,8344 Wall Tower,The Wall TX 76264
+tgreyjoy@ironislands.com,Theon,Greyjoy,,Theon Greyjoy,1842 Whitemark Ln,Iron Islands TX 78287,,Theon Greyjoy,1842 Whitemark Ln,Iron Islands TX 78287
+blackfish@housetully.com,Brynden,Tully,,B. Tully,41 Castle Lane,Tullytown TX 72646,,B. Tully,41 Castle Lane,Tullytown TX 72646
+sweetrobin@arryn.com,Robert,Arryn,,Rob Arryn,112 Sky Tower,Vale TX 74823,,Rob Arryn,112 Sky Tower,Vale TX 74823
+dany@dragonstone.org,Daenerys,Stormborn,ATTN: The Dragon,Dany Stormborn,PO Box 47388,Dragonforge TX 74722,ATTN: The Dragon,Dany Stormborn,PO Box 47388,Dragonforge TX 74722
+arya_stark@winterfell.org,Arya,Stark,,Arya Stark,8282 Wolf Drive,Winterfell TX 74635,,Arya Stark,8282 Wolf Drive,Winterfell TX 74635
+marge@highgarden.com,Margaery,Tyrell,,Marge Tyrell,1455 Avenue B,High Garden TX 72663,,Marge Tyrell,1455 Avenue B,High Garden TX 72663
+king_robert@thesevenkingdoms.org,Robert,Baratheon,,Bob Baratheon,1 King Tower,Seven Kingdoms TX 72273,,Bob Baratheon,1 King Tower,Seven Kingdoms TX 72273
+imp@lannister.com,Tyrion,Lannister,,Tyrion Lannister,3489 Short Walk Ln,Castle Rock TX 74723,,Tyrion Lannister,3489 Short Walk Ln,Castle Rock TX 74723

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\" />
+    <Folder Include="AggregateRoots\" />
+    <Folder Include="ValueObjects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="LeadPipe.Net.Domain" Version="2017.1.31.52" />
+    <PackageReference Include="LeadPipe.Net" Version="2017.4.21.53" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Checkmunk.Domain.Common\Checkmunk.Domain.Common.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="App.Metrics" Version="1.2.0" />
+    <PackageReference Include="FluentValidation" Version="7.1.1" />
+    <PackageReference Include="LeadPipe.Net" Version="2017.4.21.53" />
+    <PackageReference Include="MediatR" Version="3.0.1" />
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Behaviors\" />
+  </ItemGroup>
+</Project>

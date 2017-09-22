@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Mothers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Checkmunk.Domain.Checklists\Checkmunk.Domain.Checklists.csproj" />
+  </ItemGroup>
+</Project>

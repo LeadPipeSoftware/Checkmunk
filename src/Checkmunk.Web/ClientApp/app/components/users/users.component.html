@@ -1,0 +1,33 @@
+<h1 class="report-header">Users</h1>
+
+<div *ngIf="!errorMessage">
+    <div>
+        <form class="form-inline">
+            <div class="form-group">
+                <label class="sr-only" for="filter">Filter</label>
+                <input id="filter" name="filter" class="form-control" type="text" [value]="filterText" [placeholder]="filterPlaceholder" [formControl]="filterInput" />
+            </div>
+        </form>
+    </div>
+    <p></p>
+    <div class="panel panel-info">
+        <div *ngIf="!firstLoad && !errorMessage" class="panel-heading">There are {{users.length}} users.</div>
+        <div *ngIf="!firstLoad && errorMessage" class="alert alert-danger" role="alert">{{errorMessage}}</div>
+        <table *ngIf="!errorMessage && users.length > 0" class='table table-bordered table-striped'>
+            <thead>
+                <tr>
+                    <th>Email Address</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users | filter:{ emailAddress: filterText, firstName: filterText, lastName: filterText } : false">
+                    <td>{{user.emailAddress}}</td>
+                    <td>{{user.firstName}}</td>
+                    <td>{{user.lastName}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

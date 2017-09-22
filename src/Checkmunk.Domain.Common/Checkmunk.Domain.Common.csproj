@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LeadPipe.Net" Version="2017.4.21.53" />
+    <PackageReference Include="LeadPipe.Net.Domain" Version="2017.1.31.52" />
+  </ItemGroup>
+</Project>

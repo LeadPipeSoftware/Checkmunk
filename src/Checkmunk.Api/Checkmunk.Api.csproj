@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\Checkmunk.Api.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="MediatR" Version="3.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
+    <PackageReference Include="App.Metrics.Extensions.Middleware" Version="1.2.0" />
+    <PackageReference Include="App.Metrics.Formatters.Json" Version="1.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="2.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.0" />
+    <PackageReference Include="Audit.WebApi" Version="8.3.1" />
+    <PackageReference Include="FluentValidation" Version="7.1.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="7.1.1" />
+    <PackageReference Include="Scrutor" Version="2.1.2" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.0.1" />
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="V1\Users\" />
+    <Folder Include="V1\Users\Controllers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Checkmunk.Application.Checklists\Checkmunk.Application.Checklists.csproj" />
+    <ProjectReference Include="..\Checkmunk.Application.Common\Checkmunk.Application.Common.csproj" />
+    <ProjectReference Include="..\Checkmunk.Application.Users\Checkmunk.Application.Users.csproj" />
+    <ProjectReference Include="..\Checkmunk.Contracts.Checklists\Checkmunk.Contracts.Checklists.csproj" />
+    <ProjectReference Include="..\Checkmunk.Contracts.Users\Checkmunk.Contracts.Users.csproj" />
+  </ItemGroup>
+</Project>
