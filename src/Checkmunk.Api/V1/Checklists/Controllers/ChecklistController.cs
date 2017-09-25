@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Audit.WebApi;
-using Checkmunk.Application.Checklists.Commands;
-using Checkmunk.Application.Checklists.Queries;
+using Checkmunk.Application.Checklists.Commands.CreateChecklist;
+using Checkmunk.Application.Checklists.Commands.DeleteChecklist;
+using Checkmunk.Application.Checklists.Commands.UpdateChecklist;
+using Checkmunk.Application.Checklists.Queries.AllChecklists;
+using Checkmunk.Application.Checklists.Queries.ChecklistById;
 using Checkmunk.Contracts.Checklists.V1.Models;
 using Checkmunk.Domain.Checklists;
 using LeadPipe.Net.Extensions;

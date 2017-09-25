@@ -12,14 +12,8 @@
     <PackageReference Include="App.Metrics" Version="1.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CommandHandlers\" />
-    <Folder Include="Commands\" />
-    <Folder Include="CommandValidators\" />
     <Folder Include="HealthChecks\" />
     <Folder Include="MapperProfiles\" />
-    <Folder Include="Queries\" />
-    <Folder Include="QueryHandlers\" />
-    <Folder Include="QueryValidators\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Checkmunk.Application.Common\Checkmunk.Application.Common.csproj" />

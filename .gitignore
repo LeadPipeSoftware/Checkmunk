@@ -184,6 +184,7 @@ ClientBin/
 orleans.codegen.cs
 .idea/
 .vscode/
+*.db-journal
 
 /node_modules
 

@@ -2,12 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationInsightsResourceId>/subscriptions/72a28812-b1bf-47eb-8f19-a5f562d0be13/resourcegroups/Checkmunk-ServiceGroup/providers/microsoft.insights/components/Checkmunk-ApiResource</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/72a28812-b1bf-47eb-8f19-a5f562d0be13/resourcegroups/Checkmunk-ServiceGroup/providers/microsoft.insights/components/Checkmunk-ApiResource</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DocumentationFile>bin\Debug\netcoreapp2.0\Checkmunk.Api.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DocumentationFile>bin\Release\netcoreapp2.0\Checkmunk.Api.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
+    <None Remove="Properties\PublishProfiles\CheckmunkApi - Web Deploy.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="MediatR" Version="3.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="3.0.0" />
@@ -35,6 +45,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="V1\Users\" />
     <Folder Include="V1\Users\Controllers\" />
   </ItemGroup>
@@ -45,4 +56,15 @@
     <ProjectReference Include="..\Checkmunk.Contracts.Checklists\Checkmunk.Contracts.Checklists.csproj" />
     <ProjectReference Include="..\Checkmunk.Contracts.Users\Checkmunk.Contracts.Users.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
+
+  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+    <ItemGroup>
+      <DocFile Include="bin\$(Configuration)\$(TargetFramework)\*.xml" />
+    </ItemGroup>
+    <Copy SourceFiles="@(DocFile)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
+  </Target>
+
 </Project>

@@ -17,7 +17,9 @@ export class UserService {
             'Content-Type': "application/json"
         });
 
-        const url = "https://localhost:55556/api/v1/Users";
+        //const url = "https://localhost:55556/api/v1/Users";
+
+        const url = "http://checkmunk-api.azurewebsites.net/api/v1/Users";
 
         return this.http
             .post(url, JSON.stringify({ firstName: user.firstName, lastName: user.lastName }), { headers: headers })
@@ -33,7 +35,8 @@ export class UserService {
     }
 
     getAllUsers(): Promise<User[]> {
-        const url = `http://localhost:55556/api/v1/Users`;
+        //const url = `http://localhost:55556/api/v1/Users`;
+        const url = "http://checkmunk-api.azurewebsites.net/api/v1/Users";
 
         return this.http.get(url)
             .toPromise()

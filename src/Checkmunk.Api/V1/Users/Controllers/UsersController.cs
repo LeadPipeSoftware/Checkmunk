@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Audit.WebApi;
-using Checkmunk.Application.Users.Commands;
-using Checkmunk.Application.Users.Queries;
+using Checkmunk.Application.Users.Commands.CreateUser;
+using Checkmunk.Application.Users.Commands.DeleteUser;
+using Checkmunk.Application.Users.Commands.UpdateUser;
+using Checkmunk.Application.Users.Queries.AllUsers;
+using Checkmunk.Application.Users.Queries.UserByEmailAddress;
 using Checkmunk.Contracts.Users.V1.Models;
 using Checkmunk.Domain.Users;
 using LeadPipe.Net.Extensions;
