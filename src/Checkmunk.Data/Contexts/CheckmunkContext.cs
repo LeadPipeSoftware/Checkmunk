@@ -1,10 +1,15 @@
-﻿using Checkmunk.Domain.Checklists.AggregateRoots;
+﻿using System;
+using Checkmunk.Domain.Checklists.AggregateRoots;
 using Checkmunk.Domain.Checklists.ValueObjects;
+using Checkmunk.Domain.Users.AggregateRoots;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Checkmunk.Data.Contexts
 {
-    public class CheckmunkContext : DbContext
+    public class CheckmunkContext : DbContext, IUserRepository, IChecklistRepository
     {
         public CheckmunkContext(DbContextOptions<CheckmunkContext> options)
             : base(options)
@@ -75,6 +80,26 @@ namespace Checkmunk.Data.Contexts
                 //u.OwnsOne(x => x.BillingAddress);
                 //u.OwnsOne(x => x.MailingAddress);
             });
+        }
+
+        public Task<User[]> GetAllUsers()
+        {
+            return this.Users.ToArrayAsync();
+        }
+
+        public Task<User> GetUserByEmailAddress(string emailAddress)
+        {
+            return this.Users.FirstOrDefaultAsync(u => u.EmailAddress.Equals(emailAddress));
+        }
+
+        public Task<Checklist[]> GetAllChecklists()
+        {
+            return this.Checklists.ToArrayAsync();
+        }
+
+        public Task<Checklist> GetChecklistById(Guid id)
+        {
+            return this.Checklists.FirstOrDefaultAsync(c => c.Id.Equals(id));
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Checkmunk.Contracts.Users.V1.Models;
 using Checkmunk.Data.Contexts;
 using MediatR;
+using System.Threading.Tasks;
 
 namespace Checkmunk.Application.Users.Queries.UserByEmailAddress
 {
@@ -20,11 +19,11 @@ namespace Checkmunk.Application.Users.Queries.UserByEmailAddress
 
         public Task<UserModel> Handle(UserByEmailAddressQuery message)
         {
-            var user = context.Users.FirstOrDefault(u => u.EmailAddress.Equals(message.EmailAddress));
+            var user = context.GetUserByEmailAddress(message.EmailAddress);
 
             var model = this.mapper.Map<UserModel>(user);
 
-            return Task.FromResult<UserModel>(model);
+            return Task.FromResult(model);
         }
     }
 }

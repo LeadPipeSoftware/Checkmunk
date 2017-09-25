@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Entities\" />
-    <Folder Include="AggregateRoots\" />
     <Folder Include="ValueObjects\" />
   </ItemGroup>
   <ItemGroup>

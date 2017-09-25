@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Checkmunk.Contracts.Users.V1.Models;
 using Checkmunk.Data.Contexts;
-using Checkmunk.Domain.Users.AggregateRoots;
 using MediatR;
+using System.Threading.Tasks;
 
 namespace Checkmunk.Application.Users.Queries.AllUsers
 {
@@ -21,11 +19,11 @@ namespace Checkmunk.Application.Users.Queries.AllUsers
 
         public Task<UserModel[]> Handle(AllUsersQuery message)
         {
-            var users = Enumerable.ToArray<User>(context.Users);
+            var users = context.GetAllUsers();
 
             var model = this.mapper.Map<UserModel[]>(users);
 
-			return Task.FromResult<UserModel[]>(model);
+            return Task.FromResult(model);
         }
     }
 }
