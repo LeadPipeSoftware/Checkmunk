@@ -21,22 +21,22 @@ namespace Checkmunk.Application.Checklists.Commands.DeleteChecklist
             this.mapper = mapper;
         }
 
-        public Task<Unit> Handle(DeleteChecklistCommand command)
+        public async Task<Unit> Handle(DeleteChecklistCommand command)
         {
-            var existingChecklist = context.Checklists.FirstOrDefault(checklist => checklist.Id.Equals(command.Id));
+            var existingChecklist = await context.GetChecklistById(command.Id);
 
             if (existingChecklist == null)
             {
-                LoggerExtensions.LogWarning(logger, LoggingEvents.DELETE_CHECKLIST, $"A request to delete a checklist that does not exist ({command.Id}) was received.");
+                logger.LogWarning(LoggingEvents.DELETE_CHECKLIST, "A {Command} was received for {Id}, but that does not exist", command, command.Id);
 
-                return Task.FromResult(new Unit());
+                return await Task.FromResult(new Unit());
             }
 
             context.Remove(existingChecklist);
 
-            context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
-            return Task.FromResult(new Unit());
+            return await Task.FromResult(new Unit());
         }
     }
 }

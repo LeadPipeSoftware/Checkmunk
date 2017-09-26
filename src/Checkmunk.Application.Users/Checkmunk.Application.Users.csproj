@@ -9,7 +9,8 @@
     <PackageReference Include="LeadPipe.Net" Version="2017.4.21.53" />
     <PackageReference Include="MediatR" Version="3.0.1" />
     <PackageReference Include="FluentValidation" Version="7.1.1" />
-    <PackageReference Include="App.Metrics" Version="1.2.0" />
+    <PackageReference Include="App.Metrics" Version="1.3.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HealthChecks\" />

@@ -21,15 +21,15 @@ namespace Checkmunk.Application.Users.Commands.UpdateUser
             this.mapper = mapper;
         }
 
-        public Task<Unit> Handle(UpdateUserCommand command)
+        public async Task<Unit> Handle(UpdateUserCommand command)
         {
-            var existingUser = context.Users.FirstOrDefault(user => user.EmailAddress.Equals(command.EmailAddress));
+            var existingUser = await context.GetUserByEmailAddress(command.EmailAddress);
 
             if (existingUser == null)
             {
-                LoggerExtensions.LogWarning(logger, LoggingEvents.UPDATE_USER, $"A request to update a user that does not exist ({command.EmailAddress}) was received.");
+                logger.LogWarning(LoggingEvents.UPDATE_USER, "A {Command} was received for {EmailAddress}, but that does not exist", command, command.EmailAddress);
 
-                return Task.FromResult(new Unit());
+                return await Task.FromResult(new Unit());
             }
 
             if (existingUser.FirstName != command.UpdateUserModel.FirstName || existingUser.LastName != command.UpdateUserModel.LastName)
@@ -39,9 +39,9 @@ namespace Checkmunk.Application.Users.Commands.UpdateUser
 
             context.Users.Update(existingUser);
 
-            context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
-            return Task.FromResult(new Unit());
+            return await Task.FromResult(new Unit());
         }
     }
 }

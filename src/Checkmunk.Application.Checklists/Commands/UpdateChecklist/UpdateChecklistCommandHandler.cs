@@ -21,15 +21,15 @@ namespace Checkmunk.Application.Checklists.Commands.UpdateChecklist
             this.mapper = mapper;
         }
 
-        public Task<Unit> Handle(UpdateChecklistCommand command)
+        public async Task<Unit> Handle(UpdateChecklistCommand command)
         {
-            var existingChecklist = context.Checklists.FirstOrDefault(checklist => checklist.Id.Equals(command.Id));
+            var existingChecklist = await context.GetChecklistById(command.Id);
 
             if (existingChecklist == null)
             {
-                LoggerExtensions.LogWarning(logger, LoggingEvents.UPDATE_CHECKLIST, $"A request to update a checklist that does not exist ({command.Id}) was received.");
+                logger.LogWarning(LoggingEvents.UPDATE_CHECKLIST, "A {Command} was received for {Id}, but that does not exist", command, command.Id);
 
-                return Task.FromResult(new Unit());
+                return await Task.FromResult(new Unit());
             }
 
             if (existingChecklist.Title != command.UpdateChecklistModel.Title)
@@ -41,9 +41,9 @@ namespace Checkmunk.Application.Checklists.Commands.UpdateChecklist
 
             context.Checklists.Update(existingChecklist);
 
-            context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
-            return Task.FromResult(new Unit());
+            return await Task.FromResult(new Unit());
         }
     }
 }

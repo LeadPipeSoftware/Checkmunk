@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Checkmunk.Contracts.Users.V1.Models;
 using Checkmunk.Data.Contexts;
 using Checkmunk.Domain.Users;
@@ -8,6 +6,8 @@ using Checkmunk.Domain.Users.AggregateRoots;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Checkmunk.Application.Users.Commands.CreateUser
 {
@@ -24,26 +24,26 @@ namespace Checkmunk.Application.Users.Commands.CreateUser
             this.mapper = mapper;
         }
 
-        public Task<UserModel> Handle(CreateUserCommand command)
+        public async Task<UserModel> Handle(CreateUserCommand command)
         {
-            var existingUser = context.Users.FirstOrDefault(user => user.EmailAddress.Equals(command.CreateUserModel.EmailAddress));
+            var existingUser = await context.GetUserByEmailAddress(command.CreateUserModel.EmailAddress);
 
             if (existingUser != null)
             {
-                LoggerExtensions.LogWarning(logger, LoggingEvents.CREATE_USER, $"A request to create an existing user ({command.CreateUserModel.EmailAddress}) was received.");
+                logger.LogWarning(LoggingEvents.CREATE_USER, "A {Command} was received for {EmailAddress}, but that already exists", command, command.CreateUserModel.EmailAddress);
 
-                return Task.FromResult<UserModel>(mapper.Map<UserModel>(existingUser));
+                return await Task.FromResult(mapper.Map<UserModel>(existingUser));
             }
 
             var newUser = new User(command.CreateUserModel.EmailAddress, command.CreateUserModel.FirstName ?? "", command.CreateUserModel.LastName ?? "");
 
-            context.Add(newUser);
+            await context.AddAsync(newUser);
 
-            context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
-            var readUser = EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<User>(context.Users, u => u.EmailAddress.Equals(command.CreateUserModel.EmailAddress));
+            var readUser = await context.GetUserByEmailAddress(command.CreateUserModel.EmailAddress);
 
-            return Task.FromResult<UserModel>(mapper.Map<UserModel>(readUser.Result));
+            return await Task.FromResult(mapper.Map<UserModel>(readUser));
         }
     }
 }

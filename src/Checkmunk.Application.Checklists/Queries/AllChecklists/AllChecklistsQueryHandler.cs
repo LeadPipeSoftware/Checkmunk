@@ -1,12 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Checkmunk.Contracts.Checklists.V1.Models;
 using Checkmunk.Data.Contexts;
-using Checkmunk.Domain.Checklists.AggregateRoots;
-using Checkmunk.Domain.Checklists.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Checkmunk.Application.Checklists.Queries.AllChecklists
 {
@@ -21,13 +17,13 @@ namespace Checkmunk.Application.Checklists.Queries.AllChecklists
             this.mapper = mapper;
         }
 
-        public Task<ChecklistModel[]> Handle(AllChecklistsQuery message)
+        public async Task<ChecklistModel[]> Handle(AllChecklistsQuery message)
         {
-            var checklists = EntityFrameworkQueryableExtensions.Include<Checklist, User>(context.Checklists, c => c.CreatedBy).Include(c => c.Items).ToArray();
+            var checklists = await context.GetAllChecklists();
 
             var model = this.mapper.Map<ChecklistModel[]>(checklists);
 
-			return Task.FromResult<ChecklistModel[]>(model);
+            return await Task.FromResult(model);
         }
     }
 }

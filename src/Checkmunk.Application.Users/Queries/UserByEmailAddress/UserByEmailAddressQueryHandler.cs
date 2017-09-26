@@ -17,13 +17,13 @@ namespace Checkmunk.Application.Users.Queries.UserByEmailAddress
             this.mapper = mapper;
         }
 
-        public Task<UserModel> Handle(UserByEmailAddressQuery message)
+        public async Task<UserModel> Handle(UserByEmailAddressQuery message)
         {
-            var user = context.GetUserByEmailAddress(message.EmailAddress);
+            var user = await context.GetUserByEmailAddress(message.EmailAddress);
 
             var model = this.mapper.Map<UserModel>(user);
 
-            return Task.FromResult(model);
+            return await Task.FromResult(model);
         }
     }
 }

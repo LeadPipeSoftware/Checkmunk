@@ -15,11 +15,11 @@ namespace Checkmunk.Application.Common.Behaviors
 
 		public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next)
 		{
-            logger.LogInformation($"Handling the {typeof(TRequest).Name} request");
+            logger.LogInformation("Handling the {@Request}", request);
 
 			var response = await next();
 
-            logger.LogInformation($"Handled the {typeof(TRequest).Name} request");
+            logger.LogInformation("Handled the {@Request} with {@Response}", request, response);
 
 			return response;
 		}

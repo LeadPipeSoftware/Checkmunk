@@ -17,13 +17,13 @@ namespace Checkmunk.Application.Users.Queries.AllUsers
             this.mapper = mapper;
         }
 
-        public Task<UserModel[]> Handle(AllUsersQuery message)
+        public async Task<UserModel[]> Handle(AllUsersQuery message)
         {
-            var users = context.GetAllUsers();
+            var users = await context.GetAllUsers();
 
             var model = this.mapper.Map<UserModel[]>(users);
 
-            return Task.FromResult(model);
+            return await Task.FromResult(model);
         }
     }
 }

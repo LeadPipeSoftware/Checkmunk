@@ -7,6 +7,10 @@
   <ItemGroup>
     <Folder Include="Mothers\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LeadPipe.Net" Version="2017.4.21.53" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Checkmunk.Domain.Checklists\Checkmunk.Domain.Checklists.csproj" />
   </ItemGroup>

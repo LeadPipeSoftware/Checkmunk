@@ -74,8 +74,6 @@ namespace Checkmunk.Api.V1.Users.Controllers
 		{
 			if (emailAddress.IsNullOrEmpty()) return BadRequest();
 
-            //if (Checkmunk.Domain.Users.User.IsEmailAddressValid(emailAddress).IsFalse()) return BadRequest();
-
 			var response = await mediator.Send<UserModel>(new UserByEmailAddressQuery(emailAddress));
 
             if (response == null) return NotFound();
@@ -113,6 +111,8 @@ namespace Checkmunk.Api.V1.Users.Controllers
 
                 if (existingUser != null) return StatusCode(409);
 
+                logger.LogWarning(LoggingEvents.CREATE_USER, "A request to create an existing user ({EmailAddress}) was received", user.EmailAddress);
+
                 response = await mediator.Send<UserModel>(new CreateUserCommand(user));
             }
             catch (Exception e)
@@ -147,11 +147,14 @@ namespace Checkmunk.Api.V1.Users.Controllers
 		{
             if (emailAddress.IsNullOrEmpty()) return BadRequest();
 
-			//if (Domain.Users.User.IsEmailAddressValid(emailAddress).IsFalse()) return BadRequest();
-
 			var existingUser = await mediator.Send<UserModel>(new UserByEmailAddressQuery(emailAddress));
 
-            if (existingUser == null) return NotFound();
+		    if (existingUser == null)
+		    {
+                logger.LogWarning(LoggingEvents.UPDATE_USER, "A request to update a user that does not exist ({EmailAddress}) was received", emailAddress);
+
+		        return NotFound();
+		    }
 
 			try
 			{
@@ -185,11 +188,14 @@ namespace Checkmunk.Api.V1.Users.Controllers
 		{
 			if (emailAddress.IsNullOrEmpty()) return BadRequest();
 
-			//if (Domain.Users.User.IsEmailAddressValid(emailAddress).IsFalse()) return BadRequest();
-
 			var existingUser = await mediator.Send<UserModel>(new UserByEmailAddressQuery(emailAddress));
 
-			if (existingUser == null) return NotFound();
+			if (existingUser == null)
+            {
+                logger.LogWarning(LoggingEvents.DELETE_USER, "A request to delete a user that does not exist ({EmailAddress}) was received", emailAddress);
+
+                return NotFound();
+            }
 
 			try
 			{

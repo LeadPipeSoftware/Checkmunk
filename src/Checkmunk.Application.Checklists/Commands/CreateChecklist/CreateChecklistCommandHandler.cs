@@ -23,10 +23,10 @@ namespace Checkmunk.Application.Checklists.Commands.CreateChecklist
             this.mapper = mapper;
         }
 
-        public Task<ChecklistModel> Handle(CreateChecklistCommand command)
+        public async Task<ChecklistModel> Handle(CreateChecklistCommand command)
         {
-            var user = EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<User>(context.ChecklistUsers, u => u.EmailAddress.Equals(command.CreateChecklistModel.CreatedBy.EmailAddress)).Result
-                           ?? new User(command.CreateChecklistModel.CreatedBy.EmailAddress);
+            var user = await context.ChecklistUsers.FirstOrDefaultAsync(u => u.EmailAddress.Equals(command.CreateChecklistModel.CreatedBy.EmailAddress))
+                ?? new User(command.CreateChecklistModel.CreatedBy.EmailAddress);
 
             var newChecklist = ChecklistBuilder.Build()
                 .WithTitle(command.CreateChecklistModel.Title)
@@ -40,11 +40,11 @@ namespace Checkmunk.Application.Checklists.Commands.CreateChecklist
 
             context.Add(newChecklist);
 
-            context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
-            var readChecklist = EntityFrameworkQueryableExtensions.FirstOrDefaultAsync<Checklist>(context.Checklists, c => c.Id.Equals(newChecklist.Id));
+            var readChecklist = await context.GetChecklistById(newChecklist.Id);
 
-            return Task.FromResult<ChecklistModel>(mapper.Map<ChecklistModel>(readChecklist.Result));
+            return await Task.FromResult(mapper.Map<ChecklistModel>(readChecklist));
         }
     }
 }

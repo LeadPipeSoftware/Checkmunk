@@ -82,24 +82,24 @@ namespace Checkmunk.Data.Contexts
             });
         }
 
-        public Task<User[]> GetAllUsers()
+        public async Task<User[]> GetAllUsers()
         {
-            return this.Users.ToArrayAsync();
+            return await this.Users.ToArrayAsync();
         }
 
-        public Task<User> GetUserByEmailAddress(string emailAddress)
+        public async Task<User> GetUserByEmailAddress(string emailAddress)
         {
-            return this.Users.FirstOrDefaultAsync(u => u.EmailAddress.Equals(emailAddress));
+            return await this.Users.FirstOrDefaultAsync(u => u.EmailAddress.Equals(emailAddress));
         }
 
-        public Task<Checklist[]> GetAllChecklists()
+        public async Task<Checklist[]> GetAllChecklists()
         {
-            return this.Checklists.ToArrayAsync();
+            return await this.Checklists.Include(c => c.CreatedBy).Include(c => c.Items).ToArrayAsync();
         }
 
-        public Task<Checklist> GetChecklistById(Guid id)
+        public async Task<Checklist> GetChecklistById(Guid id)
         {
-            return this.Checklists.FirstOrDefaultAsync(c => c.Id.Equals(id));
+            return await this.Checklists.Include(c => c.CreatedBy).Include(c => c.Items).FirstOrDefaultAsync(c => c.Id.Equals(id));
         }
     }
 }

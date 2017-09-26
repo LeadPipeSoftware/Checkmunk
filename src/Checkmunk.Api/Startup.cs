@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -18,7 +17,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using Scrutor;
-using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Checkmunk.Api
@@ -28,12 +26,6 @@ namespace Checkmunk.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .CreateLogger();
 
 			Audit.Core.Configuration.Setup()
                  .UseDynamicProvider(config => config
@@ -79,8 +71,6 @@ namespace Checkmunk.Api
 			});
 
             services.AddApiVersioning(options => options.ReportApiVersions = true);
-
-            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
             services.AddMediatR(
                 typeof(Application.Checklists.AssemblyMarker).GetTypeInfo().Assembly,
