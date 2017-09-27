@@ -12,6 +12,7 @@ import { UsersComponent } from './components/users/users.component';
 import { CounterComponent } from './components/counter/counter.component';
 
 // Services
+import { SettingsService } from './services/settings.service';
 import { UserService } from './services/user.service';
 
 // Pipes
@@ -40,6 +41,7 @@ import { FilterPipe } from './pipes/filter.pipe';
         ])
     ],
     providers: [
+        SettingsService,
         UserService
     ]
 })

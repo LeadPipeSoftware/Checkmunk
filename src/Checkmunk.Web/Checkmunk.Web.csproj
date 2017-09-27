@@ -28,9 +28,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\app\services\settings.service.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ClientApp\app\models\" />
-    <Folder Include="ClientApp\app\services\" />
     <Folder Include="ClientApp\app\pipes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\services\settings.service.ts" />
   </ItemGroup>
 
   <ItemGroup>

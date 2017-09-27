@@ -5,21 +5,33 @@ import 'rxjs/add/operator/toPromise';
 
 import { User } from '../models/user';
 import { IJsonUser } from '../models/jsonuser.interface';
+import { SettingsService } from './settings.service';
+
+// require hack
+declare function require(path: string): any;
+
+// require untyped library file
+var structuredLog = require('structured-log');
 
 @Injectable()
 export class UserService {
+    private log: any;
 
-    constructor(private http: Http) {
+    constructor(private settingsService: SettingsService, private http: Http) {
+        this.log = structuredLog.configure()
+            .minLevel.debug()
+            .writeTo(new structuredLog.ConsoleSink())
+            .create();
     }
 
     create(user: User): Promise<User> {
         const headers = new Headers({
-            'Content-Type': "application/json"
+            'Content-Type': "application/json",
         });
 
-        //const url = "https://localhost:55556/api/v1/Users";
+        this.log.info('POST {User}', user);
 
-        const url = "http://checkmunk-api.azurewebsites.net/api/v1/Users";
+        const url = this.settingsService.apiUrl + "api/v1/Users"; // This is terrible. Use https://github.com/jfromaniello/url-join instead.
 
         return this.http
             .post(url, JSON.stringify({ firstName: user.firstName, lastName: user.lastName }), { headers: headers })
@@ -27,34 +39,49 @@ export class UserService {
             .then(result => result.json() as User)
             .catch(error => {
                 if (error.status === 409) {
-                    return Promise.reject("A user with that id already exists.");
+                    return Promise.reject("A user with that email address already exists");
                 }
 
-                return this.handleError(error);
+                this.log.error(error, error.message);
+                return Promise.reject(error.message || error);
             });
     }
 
     getAllUsers(): Promise<User[]> {
-        //const url = `http://localhost:55556/api/v1/Users`;
-        const url = "http://checkmunk-api.azurewebsites.net/api/v1/Users";
+        const url = this.settingsService.apiUrl + "api/v1/Users"; // This is terrible. Use https://github.com/jfromaniello/url-join instead.
 
-        return this.http.get(url)
+        this.log.info('GET {Url}', url);
+
+        return this.http
+            .get(url)
             .toPromise()
-            .then(response => {
-                let jsonUsers: IJsonUser[] = response.json() as IJsonUser[];
-                let users: User[] = [];
-
-                for (let i = 0; i < jsonUsers.length; i++) {
-                    users.push(User.fromJson(jsonUsers[i]));
-                }
-
-                return users;
-            })
-            .catch(this.handleError);
+            .then(this.extractData)
+            .catch(error => {
+                this.log.info('Uh-oh! {Error}', error);
+                this.log.error(error, error.message);
+                return Promise.reject(error.message || error);
+            });
     }
 
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error);
-        return Promise.reject("Uh-oh! An error occurred.");
+    private extractData(response: Response) {
+        let jsonUsers: IJsonUser[] = response.json() as IJsonUser[];
+        let users: User[] = [];
+
+        for (let i = 0; i < jsonUsers.length; i++) {
+            users.push(User.fromJson(jsonUsers[i]));
+        }
+
+        return users;
+    }
+
+    // DEPRECATED
+    private createGuid(): string {
+        function random() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
+
+        return random() + random() + '-' + random() + '-' + random() + '-' + random() + '-' + random() + random() + random();
     }
 }
