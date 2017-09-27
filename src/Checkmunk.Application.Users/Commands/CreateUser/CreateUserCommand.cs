@@ -1,15 +1,20 @@
-﻿using Checkmunk.Contracts.Users.V1.Models;
+﻿using Checkmunk.Application.Common;
+using Checkmunk.Contracts.Users.V1.Models;
 using MediatR;
+using System;
 
 namespace Checkmunk.Application.Users.Commands.CreateUser
 {
-    public class CreateUserCommand : IRequest<UserModel>, IRequest
+    public class CreateUserCommand : IRequest<UserModel>, IRequest, IAmCorrelatable
     {
-        public CreateUserCommand(CreateUserModel createUserModel)
+        public CreateUserCommand(Guid correlationGuid, CreateUserModel createUserModel)
         {
+            this.CorrelationGuid = correlationGuid;
             this.CreateUserModel = createUserModel;
         }
 
-        public CreateUserModel CreateUserModel { get; set; }
+        public Guid CorrelationGuid { get; private set; }
+
+        public CreateUserModel CreateUserModel { get; private set; }
     }
 }

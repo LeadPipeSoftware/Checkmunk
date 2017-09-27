@@ -74,7 +74,7 @@ namespace Checkmunk.Data.SeedData
                             throw new Exception($"Could not find user with email address:{csvChecklist.CreatedBy} in the seed data.");
                         }
 
-                        var checklist = ChecklistBuilder.Build()
+                        var checklist = ChecklistFactory.Build()
                                                         .WithTitle(csvChecklist.Title)
                                                         .ByUser(user)
                                                         .OnDate(csvChecklist.CreatedAt)

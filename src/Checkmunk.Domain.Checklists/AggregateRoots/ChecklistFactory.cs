@@ -5,7 +5,7 @@ using Checkmunk.Domain.Checklists.ValueObjects;
 
 namespace Checkmunk.Domain.Checklists.AggregateRoots
 {
-    public class ChecklistBuilder : IChecklistTitle,
+    public class ChecklistFactory : IChecklistTitle,
                                     IChecklistCreatedByUser,
                                     IChecklistOptionalValues
     {
@@ -15,18 +15,18 @@ namespace Checkmunk.Domain.Checklists.AggregateRoots
         private Guid id = Guid.NewGuid();
         private IList<ChecklistItem> items = new List<ChecklistItem>();
 
-        private ChecklistBuilder()
+        private ChecklistFactory()
         {
         }
 
-        public static implicit operator Checklist(ChecklistBuilder builder)
+        public static implicit operator Checklist(ChecklistFactory factory)
         {
-            return builder.Finish();
+            return factory.Finish();
         }
 
         public static IChecklistTitle Build()
         {
-            return new ChecklistBuilder();
+            return new ChecklistFactory();
         }
 
         public IChecklistCreatedByUser WithTitle(string title)

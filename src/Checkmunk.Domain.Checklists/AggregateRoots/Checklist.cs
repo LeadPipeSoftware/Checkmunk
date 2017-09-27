@@ -18,7 +18,7 @@ namespace Checkmunk.Domain.Checklists.AggregateRoots
 
         internal Checklist(Guid id, string title, User createdBy, DateTime createdAt, IList<ChecklistItem> items)
         {
-            // For building new objects (called by the ChecklistBuilder)
+            // For building new objects (called by the ChecklistFactory)
 
             Guard.Will.ProtectAgainstDefaultValueArgument(() => id);
             Guard.Will.ProtectAgainstNullOrEmptyStringArgument(() => title);

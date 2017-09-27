@@ -28,7 +28,7 @@ namespace Checkmunk.Application.Checklists.Commands.CreateChecklist
             var user = await context.ChecklistUsers.FirstOrDefaultAsync(u => u.EmailAddress.Equals(command.CreateChecklistModel.CreatedBy.EmailAddress))
                 ?? new User(command.CreateChecklistModel.CreatedBy.EmailAddress);
 
-            var newChecklist = ChecklistBuilder.Build()
+            var newChecklist = ChecklistFactory.Build()
                 .WithTitle(command.CreateChecklistModel.Title)
                 .ByUser(user)
                 .Finish();

@@ -7,6 +7,7 @@ using Checkmunk.Application.Checklists.Commands.DeleteChecklist;
 using Checkmunk.Application.Checklists.Commands.UpdateChecklist;
 using Checkmunk.Application.Checklists.Queries.AllChecklists;
 using Checkmunk.Application.Checklists.Queries.ChecklistById;
+using Checkmunk.Application.Common;
 using Checkmunk.Contracts.Checklists.V1.Models;
 using Checkmunk.Domain.Checklists;
 using LeadPipe.Net.Extensions;
@@ -72,7 +73,7 @@ namespace Checkmunk.Api.V1.Checklists.Controllers
         [HttpGet("{id}", Name = "GetChecklistById")]
         public async Task<IActionResult> Get(string id)
         {
-            var guid = ParseGuid(id);
+            var guid = id.ToGuid();
 
             if (guid.IsDefaultValue()) return BadRequest();
 
@@ -141,7 +142,7 @@ namespace Checkmunk.Api.V1.Checklists.Controllers
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Put(string id, [FromBody]UpdateChecklistModel checklist)
         {
-            var guid = ParseGuid(id);
+            var guid = id.ToGuid();
 
             if (guid.IsDefaultValue()) return BadRequest();
 
@@ -179,7 +180,7 @@ namespace Checkmunk.Api.V1.Checklists.Controllers
         [ProducesResponseType(typeof(void), 500)]
         public async Task<IActionResult> Delete(string id)
         {
-            var guid = ParseGuid(id);
+            var guid = id.ToGuid();
 
             if (guid.IsDefaultValue()) return BadRequest();
 
@@ -199,17 +200,6 @@ namespace Checkmunk.Api.V1.Checklists.Controllers
             }
 
             return new NoContentResult();
-        }
-
-        private Guid ParseGuid(string id)
-        {
-            if (id.IsNullOrEmpty()) return Guid.Empty;
-
-            var guid = Guid.Empty;
-
-            Guid.TryParse(id, out guid);
-
-            return guid;
         }
     }
 }

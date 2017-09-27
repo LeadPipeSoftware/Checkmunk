@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Audit.WebApi;
+using Checkmunk.Application.Common;
 using Checkmunk.Application.Users.Commands.CreateUser;
 using Checkmunk.Application.Users.Commands.DeleteUser;
 using Checkmunk.Application.Users.Commands.UpdateUser;
@@ -43,7 +44,7 @@ namespace Checkmunk.Api.V1.Users.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Get()
 		{
-			var response = await mediator.Send<UserModel[]>(new AllUsersQuery());
+			var response = await mediator.Send<UserModel[]>(new AllUsersQuery(Guid.NewGuid()));
 
             if (response == null)
             {
@@ -74,7 +75,7 @@ namespace Checkmunk.Api.V1.Users.Controllers
 		{
 			if (emailAddress.IsNullOrEmpty()) return BadRequest();
 
-			var response = await mediator.Send<UserModel>(new UserByEmailAddressQuery(emailAddress));
+			var response = await mediator.Send<UserModel>(new UserByEmailAddressQuery(Guid.NewGuid(), emailAddress));
 
             if (response == null) return NotFound();
 
@@ -97,23 +98,25 @@ namespace Checkmunk.Api.V1.Users.Controllers
 		[ProducesResponseType(typeof(void), 409)]
 		[ProducesResponseType(typeof(void), 500)]
 		public async Task<IActionResult> Post([FromBody]CreateUserModel user)
-        {
+		{
             if (user == null)
             {
                 return BadRequest();
             }
 
+		    var correlationGuid = Guid.NewGuid();
+
             UserModel response;
 
             try
             {
-                var existingUser = await mediator.Send<UserModel>(new UserByEmailAddressQuery(user.EmailAddress));
+                var existingUser = await mediator.Send<UserModel>(new UserByEmailAddressQuery(correlationGuid, user.EmailAddress));
 
                 if (existingUser != null) return StatusCode(409);
 
-                logger.LogWarning(LoggingEvents.CREATE_USER, "A request to create an existing user ({EmailAddress}) was received", user.EmailAddress);
+                logger.LogWarning(LoggingEvents.CREATE_USER, "A POST request was received for {EmailAddress}, but that user already exists", user.EmailAddress);
 
-                response = await mediator.Send<UserModel>(new CreateUserCommand(user));
+                response = await mediator.Send<UserModel>(new CreateUserCommand(correlationGuid, user));
             }
             catch (Exception e)
             {
@@ -147,7 +150,9 @@ namespace Checkmunk.Api.V1.Users.Controllers
 		{
             if (emailAddress.IsNullOrEmpty()) return BadRequest();
 
-			var existingUser = await mediator.Send<UserModel>(new UserByEmailAddressQuery(emailAddress));
+		    var correlationGuid = Guid.NewGuid();
+
+			var existingUser = await mediator.Send<UserModel>(new UserByEmailAddressQuery(correlationGuid, emailAddress));
 
 		    if (existingUser == null)
 		    {
@@ -158,7 +163,7 @@ namespace Checkmunk.Api.V1.Users.Controllers
 
 			try
 			{
-                await mediator.Send(new UpdateUserCommand(emailAddress, user));
+                await mediator.Send(new UpdateUserCommand(correlationGuid, emailAddress, user));
 			}
 			catch (Exception e)
 			{
@@ -188,7 +193,9 @@ namespace Checkmunk.Api.V1.Users.Controllers
 		{
 			if (emailAddress.IsNullOrEmpty()) return BadRequest();
 
-			var existingUser = await mediator.Send<UserModel>(new UserByEmailAddressQuery(emailAddress));
+		    var correlationGuid = Guid.NewGuid();
+
+			var existingUser = await mediator.Send<UserModel>(new UserByEmailAddressQuery(correlationGuid, emailAddress));
 
 			if (existingUser == null)
             {
@@ -199,7 +206,7 @@ namespace Checkmunk.Api.V1.Users.Controllers
 
 			try
 			{
-                await mediator.Send(new DeleteUserCommand(emailAddress));
+                await mediator.Send(new DeleteUserCommand(correlationGuid, emailAddress));
 			}
 			catch (Exception e)
 			{
