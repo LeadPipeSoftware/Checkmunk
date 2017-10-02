@@ -21,7 +21,7 @@ namespace Checkmunk.Api
 
             Log.Logger = new LoggerConfiguration()
                 //.ReadFrom.Configuration(configuration)
-                .MinimumLevel.Verbose()
+                .MinimumLevel.Information()
                 .Enrich.FromLogContext()
                 .Enrich.WithMachineName()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
